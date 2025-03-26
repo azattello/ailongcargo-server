@@ -78,8 +78,8 @@ app.get('/api/download/:filename', (req, res) => {
 
 // HTTPS options
 const httpsOptions = {
-    key: fs.readFileSync('/etc/letsencrypt/live/ailongcargo.kz/privkey.pem'),
-    cert: fs.readFileSync('/etc/letsencrypt/live/ailongcargo.kz/fullchain.pem')
+    key: fs.readFileSync('/etc/letsencrypt/live/track24.kz/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/track24.kz/fullchain.pem')
 };
 
 const start = async () => {
