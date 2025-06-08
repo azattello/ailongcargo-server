@@ -70,6 +70,10 @@ router.post('/updateSettings', uploadContract.single('contract'), [
 router.get('/getSettings', async (req, res) => {
     try {
         const settings = await Settings.findOne();
+         if (!settings) {
+            settings = new Settings(); // создаём с дефолтами
+            await settings.save();
+            }
         res.status(200).json(settings);
     } catch (error) {
         console.error('Ошибка при получении настроек:', error.message);
@@ -192,6 +196,27 @@ router.get('/getContacts', async (req, res) => {
     }
 });
 
+
+
+
+// Обновить график работы
+router.put('/working-hours', async (req, res) => {
+  const { workingHours } = req.body;
+  try {
+    let settings = await Settings.findOne();
+    if (!settings) {
+      settings = new Settings();
+    }
+
+    settings.workingHours = workingHours;
+    await settings.save();
+
+    res.json({ success: true, workingHours });
+  } catch (err) {
+    console.error('Ошибка при сохранении графика:', err);
+    res.status(500).json({ error: 'Не удалось сохранить график' });
+  }
+});
 
 
 

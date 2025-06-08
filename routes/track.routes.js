@@ -107,4 +107,27 @@ router.get('/getBookmarksWithoutStatus', async (req, res) => {
   }
 });
 
+
+
+router.delete('/', async (req, res) => {
+  try {
+    const { tracks } = req.body;
+
+    if (!Array.isArray(tracks) || tracks.length === 0) {
+      return res.status(400).json({ message: 'Нужно передать непустой массив tracks' });
+    }
+
+    const result = await Track.deleteMany({ track: { $in: tracks } });
+    return res.json({
+      message: `Удалено ${result.deletedCount} трек${result.deletedCount === 1 ? '' : 'ов'}`,
+      deletedCount: result.deletedCount
+    });
+  } catch (err) {
+    console.error('Ошибка при удалении треков:', err);
+    return res.status(500).json({ message: 'Ошибка сервера при удалении треков' });
+  }
+});
+
+
+
 module.exports = router;
